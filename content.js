@@ -234,15 +234,15 @@ window.DW_CONTENT = {
           heading: "依流派補單體設施",
           items: [
             "Gorgon 力場隊：Mana Ley Line 同列放大 Force；Giant Rampart 作為狩獵場支援。這組效果有玩家專門指南支持。",
-            "通用防線：社群 Wiki 將 Giant Rampart 列為強勢設施；大型狩獵場通常比把每個小格都塞進不同弱隊更容易集中強化。",
-            "控場：Serenity Sanctuary 可以是控制向工具，但 Build 221 加入行動控制遞減與免疫機制；舊版多間 Serenity 疊控套路不可不改就照抄。"
+            "近期社群 Wiki 將 Sanctuary of Silence（靜寂聖所）、Mana Ley Line、Giant Rampart 列為強勢設備，並記錄一個 5×4 擴張模板：魔王房前放 Giant Fortress、周圍 4 個 Giant Rampart，前方 2 個 Sanctuary of Silence，並用 4 條 Mana Ley Line 覆蓋核心區。這是玩家配置模板，Build 222 尚未重測。",
+            "Build 221 官方遞減機制寫的是 Unable to Act／Unable to Move 等行動控制效果。現有來源沒有證明 Sanctuary of Silence 的 Silence 一定套用同一遞減；不要把兩種狀態直接畫上等號。"
           ]
         },
         {
           heading: "泛用與情境怎麼分",
           items: [
-            "優先評估：能直接服務主力傷害或生存的設施，例如對應傷害類型的脈線、Giant Rampart、Fountain of Life。",
-            "情境選擇：Catapult、控制房或依賴很多改造的設施組合。要看地形、敵人路線、觸發條件和支配力，不等於它們弱。",
+            "泛用核心先看 Giant Fortress + Giant Rampart；傷害主題隊再補對應的 Mana Ley Line。隊伍若常死於續航，才把 Fountain of Life／Heart of the World Tree 拉高。",
+            "情境選擇：Catapult 或需要特定路線觸發的房間。手上的來源只有配方，沒有同版本的通關比較，不能據此判定它弱或冷門。",
             "公開資料沒有設施使用率統計，因此本站不會把「攻略比較少」說成「玩家不常用」。"
           ]
         }
@@ -252,7 +252,7 @@ window.DW_CONTENT = {
       mechanicStatus: "配方與新版本效果待核對",
       sources: [
         { name: "巴哈姆特：設施組合表（玩家整理）", url: "https://forum.gamer.com.tw/C.php?bsn=85358&snA=90&tnum=1" },
-        { name: "Dungeon Within Wiki*：設施效果與玩家評語", url: "https://wikiwiki.jp/dunwith/%E8%A8%AD%E5%82%99" },
+        { name: "Dungeon Within Wiki*：設備效果與 5×4 玩家配置", url: "https://wikiwiki.jp/dunwith/%E8%A8%AD%E5%82%99" },
         { name: "官方 v0.7.5 Build 221 更新紀錄（控場遞減）", url: "https://gamecoaster.notion.site/v0-7-5-Build-221-4154966ac9c38055b2c5d5c91c685070" }
       ],
       version: "玩家配方表 2026-07；控場提醒 Build 221",
