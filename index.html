@@ -59,7 +59,7 @@
         </section>
 
         <section class="signal-strip" aria-label="資料索引概況">
-          <div class="signal-item"><span class="signal-number" id="entry-total">09</span><span class="signal-label">功能索引</span></div>
+          <div class="signal-item"><span class="signal-number" id="entry-total">14</span><span class="signal-label">資料條目</span></div>
           <div class="signal-rule"></div>
           <div class="signal-item"><span class="signal-number">01</span><span class="signal-label">版本基線</span></div>
           <div class="signal-rule"></div>
@@ -72,23 +72,19 @@
             <div>
               <div class="section-kicker">THE INDEX</div>
               <h2 id="library-title">資料索引<span class="heading-period">.</span></h2>
-              <p>從已觀察的遊戲功能開始，逐步補上有來源的機制與攻略。</p>
+              <p>按資料類型與驗證狀態查找內容；來源版本不明的社群資料會明確標示待核對。</p>
             </div>
-            <div class="view-label"><span class="view-indicator"></span> 本機資料庫 <span class="view-divider">/</span> <span id="visible-count">09 筆</span></div>
+            <div class="view-label"><span class="view-indicator"></span> 公開索引 <span class="view-divider">/</span> <span id="visible-count">14 筆</span></div>
           </div>
 
           <div class="filter-bar">
             <div class="filter-tabs" role="group" aria-label="依資料類型篩選">
-              <button class="filter-chip selected" type="button" data-category="全部" aria-pressed="true">全部 <span id="all-count">09</span></button>
-              <button class="filter-chip" type="button" data-category="功能導覽" aria-pressed="false">功能導覽</button>
-              <button class="filter-chip" type="button" data-category="資料方法" aria-pressed="false">資料方法</button>
+              <button class="filter-chip selected" type="button" data-category="全部" aria-pressed="true">全部 <span id="all-count">14</span></button>
             </div>
             <label class="status-filter">
               <span>驗證狀態</span>
               <select id="status-filter" aria-label="依驗證狀態篩選">
                 <option value="全部">全部狀態</option>
-                <option value="介面已觀察">介面已觀察</option>
-                <option value="規則待驗證">規則待驗證</option>
               </select>
             </label>
           </div>
@@ -119,8 +115,9 @@
             <p>每筆內容都會標示它是從哪裡來，以及目前能支持什麼結論。只觀察到按鈕、數值或描述時，本站會寫明「介面已觀察」，不把它直接當成完整攻略。</p>
             <div class="method-legend">
               <div><span class="legend-badge observed">介面已觀察</span><small>確認畫面文字與欄位</small></div>
-              <div><span class="legend-badge pending">規則待驗證</span><small>觸發條件或實戰效果待查</small></div>
-              <div><span class="legend-badge source">附來源</span><small>標示版本、來源與查核日期</small></div>
+              <div><span class="legend-badge official">官方資料</span><small>引用 GameCoaster 更新紀錄</small></div>
+              <div><span class="legend-badge community">社群資料</span><small>保留 Wiki 版本限制</small></div>
+              <div><span class="legend-badge pending">待版本核對</span><small>不等同新版遊戲實測</small></div>
             </div>
           </div>
         </section>
@@ -129,7 +126,7 @@
           <div class="about-label">ABOUT THIS FIELD GUIDE</div>
           <div class="about-body">
             <h2 id="about-title">先整理，再推薦。</h2>
-            <p>這是 Dungeon Within 靜態攻略站的本機原型。公開內容只放通用功能導覽與有來源的攻略；個人帳號進度、資源數與遊戲截圖留在私人筆記，不會由此頁匯出。</p>
+            <p>這是 Dungeon Within 的公開靜態攻略站。內容包含功能導覽、官方更新摘要與附來源的社群條目；版本不明或過時的資訊會標示待核對。個人帳號進度、資源數與遊戲截圖留在私人筆記，不會由此頁匯出。</p>
           </div>
           <div class="about-meta"><span>繁體中文優先</span><span>無需登入</span><span>GitHub Pages ready</span></div>
         </section>
@@ -137,10 +134,9 @@
 
       <footer class="site-footer">
         <a class="footer-brand" href="#top"><span class="footer-mark">DW</span> DUNGEON WITHIN <span class="footer-slash">/</span> FIELD GUIDE</a>
-        <span class="footer-copy">本機原型 · 尚未發布 · <span id="footer-year">2026</span></span>
+        <span class="footer-copy">GitHub Pages · 公開資料索引 · <span id="footer-year">2026</span></span>
         <a class="back-top" href="#top">返回頂端 <span>↑</span></a>
       </footer>
     </div>
   </body>
 </html>
-

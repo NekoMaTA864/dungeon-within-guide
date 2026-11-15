@@ -1,4 +1,4 @@
-/* Public, generic interface notes only. Personal inventory and account values stay in Notion. */
+/* Public guide notes and cited sources only. Personal inventory and account values stay in Notion. */
 window.DW_CONTENT = {
   version: "v0.7.6 Build 222",
   updated: "2026-11-15",
@@ -189,7 +189,90 @@ window.DW_CONTENT = {
       source: "本站資料整理規則",
       tags: ["證據", "來源", "版本", "驗證"],
       updated: "2026-11-15"
+    },
+    {
+      id: "patch-076",
+      category: "版本更新",
+      title: "v0.7.6 更新摘要",
+      english: "Patch Notes · Build 222",
+      aliases: ["0.7.6", "Build 222", "永遠的戰爭", "Ascension", "遺骨", "耐久力"],
+      summary: "官方更新調整魔王昇天效果、降低永遠的戰爭敵方生命成長，並修正戰鬥計算與介面問題。",
+      observation: [
+        "魔王昇天效果與數值有平衡調整；細節依 Desponia、Rhea、Aura、Zaria、Quintessa 分列。",
+        "永遠的戰爭中，後續敵人的最大生命值成長幅度降低；官方列出第 10、20、30 階約 15%、30%、40% 的差異。",
+        "修正耐久力增益、遺骨、一般戰鬥獎勵選項，以及方舟等介面的多項問題。"
+      ],
+      caution: "這是 Build 222 的官方更新摘要，不代表所有舊攻略都已重新測試。涉及角色數值的配置請對照完整更新紀錄與目前遊戲版本。",
+      status: "官方資料",
+      mechanicStatus: "Build 222 更新紀錄",
+      source: "GameCoaster 官方 Release Note (EN)",
+      sourceUrl: "https://gamecoaster.notion.site/v0-7-6-Build-222-4174966ac9c3800d895ff12921a50f8d",
+      version: "v0.7.6 Build 222",
+      tags: ["版本", "更新", "昇天", "永遠的戰爭", "戰鬥修正"],
+      updated: "2026-11-15"
+    },
+    {
+      id: "monster-formation-wiki",
+      category: "魔物資料",
+      title: "魔王室與狩獵場配置",
+      english: "Demon Room & Hunting Ground",
+      aliases: ["隊伍", "魔王房", "狩獵場", "部署", "前衛", "後衛"],
+      summary: "社群 Wiki 記載魔王室與狩獵場的單位槽位；該頁未註明適用遊戲版本。",
+      observation: [
+        "Wiki 說明魔王室配置 1 名魔王與 3 隻魔物。",
+        "狩獵場配置 4 隻魔物，負責與敵方單位直接交戰。",
+        "這是社群資料摘錄，尚未用 v0.7.6 遊戲畫面核對。"
+      ],
+      caution: "原頁沒有標示資料版本；本條目只作為查詢線索，不作現行編隊建議。請以目前遊戲中的槽位與部署畫面為準。",
+      status: "社群資料",
+      mechanicStatus: "版本待核對",
+      source: "Dungeon Within Wiki*：魔王・モンスター",
+      sourceUrl: "https://wikiwiki.jp/dunwith/%E9%AD%94%E7%8E%8B%E3%83%BB%E3%83%A2%E3%83%B3%E3%82%B9%E3%82%BF%E3%83%BC",
+      version: "來源未註明版本",
+      tags: ["魔物", "隊伍", "部署", "狩獵場", "槽位"],
+      updated: "2026-11-15"
+    },
+    {
+      id: "facility-types-wiki",
+      category: "設施資料",
+      title: "設施三分類",
+      english: "Facility Categories",
+      aliases: ["狩獵場", "陷阱", "設備", "設施分類"],
+      summary: "社群 Wiki 將設施分為狩獵場、陷阱與設備，並簡述各自用途。",
+      observation: [
+        "狩獵場配置我方魔物，與入侵敵人交戰。",
+        "陷阱對進入的敵人造成傷害或有害效果。",
+        "設備提供地城或我方單位的支援效果。"
+      ],
+      caution: "Wiki 同頁另有未註版本的地城格數與耐久說明，本條目沒有照搬那些數值。三類設施的現行細節仍需對照 v0.7.6 遊戲內說明。",
+      status: "社群資料",
+      mechanicStatus: "版本待核對",
+      source: "Dungeon Within Wiki*：施設",
+      sourceUrl: "https://wikiwiki.jp/dunwith/%E6%96%BD%E8%A8%AD",
+      version: "來源未註明版本",
+      tags: ["設施", "狩獵場", "陷阱", "設備"],
+      updated: "2026-11-15"
+    },
+    {
+      id: "progression-guide-history",
+      category: "版本提醒",
+      title: "舊版新手流程需重測",
+      english: "Progression Guide · Historical",
+      aliases: ["新手", "開局", "流程", "v0.4.2", "舊攻略"],
+      summary: "社群 Wiki 的流程頁包含明確標為 v0.4.2 的推薦與育成說明，不能直接當作 v0.7.6 建議。",
+      observation: [
+        "頁面介紹新手解鎖建築所、培養暫用隊伍與長期育成的階段流程。",
+        "部分魔物與配件推薦明確寫著現行版本 v0.4.2，早於本站 v0.7.6 基線。",
+        "可用來尋找待查主題；名稱、數值、解鎖條件及推薦都需按新版更新紀錄重核。"
+      ],
+      caution: "不要把頁面列出的 v0.4.2 隊伍或配件直接套用到 v0.7.6。此條目是版本警示，不是新手攻略或配隊推薦。",
+      status: "歷史資料",
+      mechanicStatus: "舊版未重測",
+      source: "Dungeon Within Wiki*：ゲームの進め方",
+      sourceUrl: "https://wikiwiki.jp/dunwith/%E3%82%B2%E3%83%BC%E3%83%A0%E3%81%AE%E9%80%B2%E3%82%81%E6%96%B9",
+      version: "頁面部分推薦標示 v0.4.2",
+      tags: ["新手", "攻略", "歷史資料", "版本差異"],
+      updated: "2026-11-15"
     }
   ]
 };
-

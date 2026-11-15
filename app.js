@@ -4,19 +4,42 @@
   const detail = document.querySelector("#detail-content");
   const searchInput = document.querySelector("#search-input");
   const statusFilter = document.querySelector("#status-filter");
+  const categoryTabs = document.querySelector(".filter-tabs");
   const emptyState = document.querySelector("#empty-state");
   const visibleCount = document.querySelector("#visible-count");
   const numberCount = (value) => String(value).padStart(2, "0");
   let activeCategory = "全部";
   let activeEntry = content.entries[0]?.id ?? null;
 
+  const statusClass = (status) => ({
+    "介面已觀察": "observed",
+    "規則待驗證": "pending",
+    "待版本核對": "pending",
+    "官方資料": "official",
+    "社群資料": "community",
+    "歷史資料": "history"
+  })[status] ?? "source";
+
   const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({
     "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
   })[char]);
 
+  function initializeFilters() {
+    const categories = [...new Set(content.entries.map((entry) => entry.category))];
+    categoryTabs.innerHTML = [
+      `<button class="filter-chip selected" type="button" data-category="全部" aria-pressed="true">全部 <span id="all-count">${numberCount(content.entries.length)}</span></button>`,
+      ...categories.map((category) => `<button class="filter-chip" type="button" data-category="${escapeHtml(category)}" aria-pressed="false">${escapeHtml(category)}</button>`)
+    ].join("");
+    const statuses = [...new Set(content.entries.flatMap((entry) => [entry.status, entry.mechanicStatus]).filter(Boolean))];
+    statusFilter.innerHTML = [
+      `<option value="全部">全部狀態</option>`,
+      ...statuses.map((status) => `<option value="${escapeHtml(status)}">${escapeHtml(status)}</option>`)
+    ].join("");
+  }
+
   function matches(entry) {
     const query = searchInput.value.trim().toLocaleLowerCase("zh-Hant");
-    const searchable = [entry.title, entry.english, entry.summary, ...entry.aliases, ...entry.tags]
+    const searchable = [entry.title, entry.english, entry.category, entry.summary, entry.source, entry.version, ...entry.aliases, ...entry.tags]
       .join(" ")
       .toLocaleLowerCase("zh-Hant");
     const categoryMatch = activeCategory === "全部" || entry.category === activeCategory;
@@ -38,14 +61,16 @@
       <h3 id="detail-title">${escapeHtml(entry.title)}</h3>
       <p class="detail-summary">${escapeHtml(entry.summary)}</p>
       <div class="detail-badges">
-        <span class="legend-badge observed">${escapeHtml(entry.status)}</span>
-        <span class="legend-badge pending">${escapeHtml(entry.mechanicStatus)}</span>
+        <span class="legend-badge ${statusClass(entry.status)}">${escapeHtml(entry.status)}</span>
+        <span class="legend-badge ${statusClass(entry.mechanicStatus)}">${escapeHtml(entry.mechanicStatus)}</span>
       </div>
       <div class="detail-divider"></div>
       <h4>介面觀察</h4>
       <ul class="observation-list">${entry.observation.map((line) => `<li>${escapeHtml(line)}</li>`).join("")}</ul>
       <div class="caution-box"><span class="caution-icon">!</span><p>${escapeHtml(entry.caution)}</p></div>
-      <div class="detail-source"><span class="source-icon">↳</span><span><small>資料來源</small><strong>${escapeHtml(entry.source)}</strong><small>${escapeHtml(entry.updated)} · ${escapeHtml(content.version)}</small></span></div>`;
+      <div class="detail-source"><span class="source-icon">↳</span><span><small>資料來源</small>${entry.sourceUrl
+        ? `<a class="source-link" href="${escapeHtml(entry.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(entry.source)}</a>`
+        : `<strong>${escapeHtml(entry.source)}</strong>`}<small>${escapeHtml(entry.updated)} · ${escapeHtml(entry.version || content.version)}</small></span></div>`;
   }
 
   function render() {
@@ -84,16 +109,18 @@
     document.querySelector("#detail-panel").scrollIntoView({ behavior: "smooth", block: "nearest" });
   });
 
-  document.querySelectorAll(".filter-chip").forEach((button) => {
-    button.addEventListener("click", () => {
-      activeCategory = button.dataset.category;
-      document.querySelectorAll(".filter-chip").forEach((chip) => {
-        const selected = chip === button;
-        chip.classList.toggle("selected", selected);
-        chip.setAttribute("aria-pressed", String(selected));
-      });
-      render();
+  initializeFilters();
+
+  categoryTabs.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-category]");
+    if (!button) return;
+    activeCategory = button.dataset.category;
+    categoryTabs.querySelectorAll(".filter-chip").forEach((chip) => {
+      const selected = chip === button;
+      chip.classList.toggle("selected", selected);
+      chip.setAttribute("aria-pressed", String(selected));
     });
+    render();
   });
 
   searchInput.addEventListener("input", render);
@@ -103,7 +130,7 @@
     searchInput.value = "";
     statusFilter.value = "全部";
     activeCategory = "全部";
-    document.querySelectorAll(".filter-chip").forEach((chip) => {
+    categoryTabs.querySelectorAll(".filter-chip").forEach((chip) => {
       const selected = chip.dataset.category === "全部";
       chip.classList.toggle("selected", selected);
       chip.setAttribute("aria-pressed", String(selected));
@@ -126,4 +153,3 @@
   document.querySelector("#footer-year").textContent = new Date().getFullYear();
   render();
 })();
-
