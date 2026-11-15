@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#10130f" />
+    <meta name="description" content="Dungeon Within 繁體中文攻略索引：依功能、版本與驗證狀態搜尋資料。" />
+    <title>Dungeon Within｜攻略索引</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="content.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#library">跳到資料索引</a>
+    <div class="site-shell" id="top">
+      <header class="topbar">
+        <a class="brand" href="#top" aria-label="Dungeon Within 攻略索引首頁">
+          <span class="brand-mark" aria-hidden="true">DW</span>
+          <span class="brand-copy">
+            <strong>Dungeon Within</strong>
+            <small>FIELD GUIDE · 繁體中文</small>
+          </span>
+        </a>
+        <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">
+          <span></span><span></span><span class="sr-only">切換導覽選單</span>
+        </button>
+        <nav class="main-nav" id="main-nav" aria-label="主要導覽">
+          <a class="nav-link active" href="#library">資料索引</a>
+          <a class="nav-link" href="#method">驗證方式</a>
+          <a class="nav-link" href="#about">關於本站</a>
+          <span class="version-pill"><i></i> v0.7.6 · B222</span>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero-art" aria-hidden="true">
+            <div class="sigil sigil-one"></div>
+            <div class="sigil sigil-two"></div>
+            <div class="sigil-core">✦</div>
+          </div>
+          <div class="hero-content">
+            <div class="eyebrow"><span class="eyebrow-line"></span> PATCH INDEX <span class="eyebrow-dot">/</span> 2026.11</div>
+            <h1 id="hero-title">迷宮資料，<br /><em>每一條都有來處。</em></h1>
+            <p class="hero-intro">查功能、找攻略、回看版本。把介面觀察、官方資料與玩家實測分清楚，再決定哪些內容值得採用。</p>
+            <form class="search-box" id="search-form" role="search">
+              <label class="sr-only" for="search-input">搜尋名稱、能力或關鍵字</label>
+              <span class="search-icon" aria-hidden="true">⌕</span>
+              <input id="search-input" type="search" autocomplete="off" placeholder="搜尋魔物、設施、功能……" />
+              <kbd>Enter</kbd>
+            </form>
+            <div class="hero-footnote"><span class="live-dot"></span> 目前索引版本 <strong>v0.7.6 Build 222</strong><span class="footnote-separator">·</span> 資料更新 2026.11.15</div>
+          </div>
+          <div class="hero-index" aria-hidden="true">
+            <span class="index-label">FIELD NOTES</span>
+            <span class="index-number">01</span>
+            <span class="index-caption">SEARCH<br />WITH PROOF</span>
+          </div>
+        </section>
+
+        <section class="signal-strip" aria-label="資料索引概況">
+          <div class="signal-item"><span class="signal-number" id="entry-total">09</span><span class="signal-label">功能索引</span></div>
+          <div class="signal-rule"></div>
+          <div class="signal-item"><span class="signal-number">01</span><span class="signal-label">版本基線</span></div>
+          <div class="signal-rule"></div>
+          <div class="signal-item"><span class="signal-number signal-word">可追溯</span><span class="signal-label">每筆資料標示來源狀態</span></div>
+          <div class="signal-note"><span class="shield-icon">⬡</span> 不收錄私人帳號進度</div>
+        </section>
+
+        <section class="library-section" id="library" aria-labelledby="library-title">
+          <div class="section-heading">
+            <div>
+              <div class="section-kicker">THE INDEX</div>
+              <h2 id="library-title">資料索引<span class="heading-period">.</span></h2>
+              <p>從已觀察的遊戲功能開始，逐步補上有來源的機制與攻略。</p>
+            </div>
+            <div class="view-label"><span class="view-indicator"></span> 本機資料庫 <span class="view-divider">/</span> <span id="visible-count">09 筆</span></div>
+          </div>
+
+          <div class="filter-bar">
+            <div class="filter-tabs" role="group" aria-label="依資料類型篩選">
+              <button class="filter-chip selected" type="button" data-category="全部" aria-pressed="true">全部 <span id="all-count">09</span></button>
+              <button class="filter-chip" type="button" data-category="功能導覽" aria-pressed="false">功能導覽</button>
+              <button class="filter-chip" type="button" data-category="資料方法" aria-pressed="false">資料方法</button>
+            </div>
+            <label class="status-filter">
+              <span>驗證狀態</span>
+              <select id="status-filter" aria-label="依驗證狀態篩選">
+                <option value="全部">全部狀態</option>
+                <option value="介面已觀察">介面已觀察</option>
+                <option value="規則待驗證">規則待驗證</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="library-layout">
+            <div class="entry-area">
+              <div class="entry-grid" id="entry-grid" aria-live="polite"></div>
+              <div class="empty-state" id="empty-state" hidden>
+                <span class="empty-mark">⌕</span>
+                <h3>沒有找到相符資料</h3>
+                <p>試試功能名稱、英文別名，或清除目前的篩選條件。</p>
+                <button class="text-button" id="reset-filters" type="button">清除篩選 <span>↗</span></button>
+              </div>
+            </div>
+            <aside class="detail-panel" id="detail-panel" aria-labelledby="detail-title" aria-live="polite">
+              <div class="detail-topline"><span>FIELD NOTE</span><span id="detail-number">NO. 01</span></div>
+              <div id="detail-content"></div>
+              <div class="detail-footer"><span class="detail-seal">DW</span><span>版本、來源、驗證狀態，<br />是每條資料的基本欄位。</span></div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="method-section" id="method" aria-labelledby="method-title">
+          <div class="method-art" aria-hidden="true"><span>≋</span><i></i></div>
+          <div class="method-copy">
+            <div class="section-kicker">SOURCE FIRST</div>
+            <h2 id="method-title">看得到的介面，<br /><em>不等於已驗證的機制。</em></h2>
+            <p>每筆內容都會標示它是從哪裡來，以及目前能支持什麼結論。只觀察到按鈕、數值或描述時，本站會寫明「介面已觀察」，不把它直接當成完整攻略。</p>
+            <div class="method-legend">
+              <div><span class="legend-badge observed">介面已觀察</span><small>確認畫面文字與欄位</small></div>
+              <div><span class="legend-badge pending">規則待驗證</span><small>觸發條件或實戰效果待查</small></div>
+              <div><span class="legend-badge source">附來源</span><small>標示版本、來源與查核日期</small></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="about-section" id="about" aria-labelledby="about-title">
+          <div class="about-label">ABOUT THIS FIELD GUIDE</div>
+          <div class="about-body">
+            <h2 id="about-title">先整理，再推薦。</h2>
+            <p>這是 Dungeon Within 靜態攻略站的本機原型。公開內容只放通用功能導覽與有來源的攻略；個人帳號進度、資源數與遊戲截圖留在私人筆記，不會由此頁匯出。</p>
+          </div>
+          <div class="about-meta"><span>繁體中文優先</span><span>無需登入</span><span>GitHub Pages ready</span></div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <a class="footer-brand" href="#top"><span class="footer-mark">DW</span> DUNGEON WITHIN <span class="footer-slash">/</span> FIELD GUIDE</a>
+        <span class="footer-copy">本機原型 · 尚未發布 · <span id="footer-year">2026</span></span>
+        <a class="back-top" href="#top">返回頂端 <span>↑</span></a>
+      </footer>
+    </div>
+  </body>
+</html>
+
