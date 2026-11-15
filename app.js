@@ -16,7 +16,15 @@
     "規則待驗證": "pending",
     "待版本核對": "pending",
     "官方資料": "official",
+    "官方更新": "official",
     "社群資料": "community",
+    "社群實測": "community",
+    "玩家實測": "community",
+    "社群攻略": "community",
+    "社群攻略整理": "community",
+    "社群個人心得": "community",
+    "社群資料整理": "community",
+    "社群 Wiki 建議": "community",
     "歷史資料": "history"
   })[status] ?? "source";
 
@@ -39,7 +47,9 @@
 
   function matches(entry) {
     const query = searchInput.value.trim().toLocaleLowerCase("zh-Hant");
-    const searchable = [entry.title, entry.english, entry.category, entry.summary, entry.source, entry.version, ...entry.aliases, ...entry.tags]
+    const sourceNames = (entry.sources ?? []).map((source) => source.name);
+    const sectionText = (entry.sections ?? []).flatMap((section) => [section.heading, ...section.items]);
+    const searchable = [entry.title, entry.english, entry.category, entry.summary, entry.version, ...sourceNames, ...sectionText, ...entry.aliases, ...entry.tags]
       .join(" ")
       .toLocaleLowerCase("zh-Hant");
     const categoryMatch = activeCategory === "全部" || entry.category === activeCategory;
@@ -51,11 +61,12 @@
 
   function renderDetail(entry) {
     if (!entry) {
-      detail.innerHTML = `<div class="detail-empty"><span class="detail-empty-icon">✦</span><h3 id="detail-title">選一筆資料</h3><p>選取左側卡片，查看觀察摘要、來源與待驗證事項。</p></div>`;
+      detail.innerHTML = `<div class="detail-empty"><span class="detail-empty-icon">✦</span><h3 id="detail-title">選一筆攻略</h3><p>選取左側卡片，查看搭配建議、理由與來源。</p></div>`;
       return;
     }
     const index = content.entries.findIndex((item) => item.id === entry.id) + 1;
     document.querySelector("#detail-number").textContent = `NO. ${numberCount(index)}`;
+    const sources = entry.sources ?? (entry.source ? [{ name: entry.source, url: entry.sourceUrl }] : []);
     detail.innerHTML = `
       <div class="detail-category">${escapeHtml(entry.category)} <span>·</span> ${escapeHtml(entry.english)}</div>
       <h3 id="detail-title">${escapeHtml(entry.title)}</h3>
@@ -65,12 +76,15 @@
         <span class="legend-badge ${statusClass(entry.mechanicStatus)}">${escapeHtml(entry.mechanicStatus)}</span>
       </div>
       <div class="detail-divider"></div>
-      <h4>介面觀察</h4>
-      <ul class="observation-list">${entry.observation.map((line) => `<li>${escapeHtml(line)}</li>`).join("")}</ul>
+      <div class="article-sections">${(entry.sections ?? []).map((section) => `
+        <section class="article-section">
+          <h4>${escapeHtml(section.heading)}</h4>
+          <ul class="observation-list">${section.items.map((line) => `<li>${escapeHtml(line)}</li>`).join("")}</ul>
+        </section>`).join("")}</div>
       <div class="caution-box"><span class="caution-icon">!</span><p>${escapeHtml(entry.caution)}</p></div>
-      <div class="detail-source"><span class="source-icon">↳</span><span><small>資料來源</small>${entry.sourceUrl
-        ? `<a class="source-link" href="${escapeHtml(entry.sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(entry.source)}</a>`
-        : `<strong>${escapeHtml(entry.source)}</strong>`}<small>${escapeHtml(entry.updated)} · ${escapeHtml(entry.version || content.version)}</small></span></div>`;
+      <div class="detail-source"><span class="source-icon">↳</span><span><small>資料來源</small><span class="source-links">${sources.map((source) => source.url
+        ? `<a class="source-link" href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.name)}</a>`
+        : `<strong>${escapeHtml(source.name)}</strong>`).join("")}</span><small>${escapeHtml(entry.updated)} · ${escapeHtml(entry.version || content.version)}</small></span></div>`;
   }
 
   function render() {
@@ -153,3 +167,4 @@
   document.querySelector("#footer-year").textContent = new Date().getFullYear();
   render();
 })();
+
