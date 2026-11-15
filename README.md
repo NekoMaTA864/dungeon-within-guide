@@ -23,5 +23,5 @@ python -m http.server 4173
 
 本目錄是可直接部署的純靜態網站，沒有後端、帳號系統或 API 金鑰。網站儲存庫為 [NekoMaTA864/dungeon-within-guide](https://github.com/NekoMaTA864/dungeon-within-guide)，Pages 發布來源已設為 **GitHub Actions**；`.github/workflows/pages.yml` 會在推送到 `main` 後部署目前目錄。
 
-部署成功後的網站網址為 `https://nekomata864.github.io/dungeon-within-guide/`。首次部署完成前，該網址可能暫時無法開啟。
+網站已於 2026-11-15 部署並確認可開啟：<https://nekomata864.github.io/dungeon-within-guide/>。部署工作流程使用 GitHub Actions，之後推送到 `main` 會自動更新網站。
 
