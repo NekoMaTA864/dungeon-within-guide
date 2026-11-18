@@ -68,7 +68,7 @@
     { label: "Stage 1｜3×3 開局", width: 3, bottom: 1, top: 3, doors: 1, hint: "通過 Stage 1 後可領第一次橫向擴建。" },
     { label: "Stage 2｜4×3 向右", width: 4, bottom: 1, top: 3, doors: 1, hint: "多出的右欄可先留空，或補入口側攔截。通過 Stage 2 後可向下擴建。" },
     { label: "Stage 3–4｜4×4 向下", width: 4, bottom: 0, top: 3, doors: 2, hint: "最下方多一列，魔王房兩條通道，可各放一間狩獵場，或用一座 2×2 跨兩條。通過 Stage 4 後可再向右擴建。" },
-    { label: "Stage 5–6｜5×4 再向右", width: 5, bottom: 0, top: 3, doors: 2, hint: "右側再一欄，可做第二道防線。若主房只靠一座 2×2 守魔王房，可跳過 Stage 6 結算的縱向擴建，保留 5×4。" },
+    { label: "Stage 5–6｜5×4 再向右", width: 5, bottom: 0, top: 3, doors: 2, hint: "右側再一欄。要不要領 Stage 6 的縱向擴建，請看上方該流派的證據與守線條件。" },
     { label: "Stage 7–8｜5×5 向上", width: 5, bottom: 0, top: 4, doors: 3, hint: "最上方多一列，魔王房多一條通道。圖上以第二狩獵場補第三條路，實際仍要測漏怪和戰力分配。" },
   ];
 
@@ -187,13 +187,21 @@
     evidence.append(" ", anchor(sourceName, sourceUrl), " · ", anchor("查設施配方", "#recipes"));
     const checklist = element("ol");
     for (const step of route.actions) checklist.append(element("li", step));
-    const expansion = route.expansion;
+    const { title, proof, decision, confidence, refs } = route.expansion;
     const stop = element("aside", null, "guide-section");
+    const citations = element("ul", null, "sources");
+    for (const ref of refs) {
+      const [label, url] = sources[ref];
+      const item = element("li");
+      item.append(anchor(label, url));
+      citations.append(item);
+    }
     stop.append(
-      element("h3", "建議停在 " + expansion.size + "（寬×高）"),
-      element("p", expansion.reason),
-      element("p", "何時擴到 5×5｜" + expansion.when),
-      element("p", "敵人入口可能隨戰線擴張流程增加；跳過最後一鏟仍要擋新增敵流。5×5 額外要處理的是魔王房第三條通道。", "board-note")
+      element("h3", "擴建判斷｜" + title),
+      element("p", proof),
+      element("p", decision),
+      element("p", confidence, "board-note"),
+      citations
     );
     detail.append(
       routeNav,
