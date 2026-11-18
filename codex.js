@@ -64,19 +64,55 @@
     return node;
   }
 
+  function renderLayout({ cells, note }) {
+    const figure = element("figure", null, "dungeon-figure");
+    figure.append(element("figcaption", "4×4 成形示意｜左側為魔王房，座標沿用遊戲畫面"));
+    const board = element("div", null, "dungeon-board");
+    board.append(element("span", "魔王側", "board-side"));
+    for (let x = 0; x < 4; x++) {
+      const axis = element("span", "X " + x, "board-axis");
+      axis.style.gridColumn = String(x + 2);
+      axis.style.gridRow = "1";
+      board.append(axis);
+    }
+
+    function tile(col, row, width, height, name, label, kind) {
+      const node = element("div", null, "dungeon-tile tile-" + kind);
+      node.style.gridColumn = col + " / span " + width;
+      node.style.gridRow = row + " / span " + height;
+      node.append(element("span", label, "tile-label"), element("strong", name));
+      board.append(node);
+      return node;
+    }
+
+    tile(1, 3, 1, 2, "魔王房", "固定位置", "lord");
+    for (let y = 3; y >= 0; y--) {
+      for (let x = 0; x < 4; x++) {
+        const room = cells.find((cell) => x >= cell.x && x < cell.x + cell.w &&
+          y <= cell.y && y > cell.y - cell.h);
+        if (!room) {
+          tile(x + 2, 5 - y, 1, 1, "預留", x + "-" + y, "empty");
+        } else if (room.x === x && room.y === y) {
+          const end = room.w > 1 || room.h > 1 ? " · " + room.w + "×" + room.h : "";
+          const node = tile(x + 2, 5 - y, room.w, room.h, room.name, x + "-" + y + end, room.kind);
+          if (room.role) node.append(element("small", room.role));
+        }
+      }
+    }
+    figure.append(board, element("p", note, "board-note"));
+    return figure;
+  }
+
   function renderRoute(entry, route) {
     const routeNav = element("nav", null, "route-nav");
     routeNav.setAttribute("aria-label", "魔王流派");
     for (const option of entry.routes) {
       routeNav.append(anchor(option.title, entryHash(entry) + "/" + option.id, route === option));
     }
-    const layout = element("ol", null, "layout");
-    layout.setAttribute("aria-label", "地宮示意，依敵人入侵方向排列");
-    for (const cell of route.layout) layout.append(element("li", cell));
     detail.append(
       routeNav,
       element("p", route.status, "status"),
-      section("地宮配置", route.placement, layout),
+      section("地宮配置", route.placement, renderLayout(route.layout)),
       section("魔物與部件", route.team),
       section("權能取捨", route.authority),
       section("昇天、晉升與魔王特質", route.ascension),

@@ -83,16 +83,16 @@ window.DW_CONTENT = {
     {
       id: "gorgon-force-build",
       category: "流派推薦",
-      title: "Gorgon 力場爆發：魔力脈線 × 巨人之王",
+      title: "Gorgon 力場爆發：魔力地脈 × 巨人之王",
       english: "Gorgon Force Burst",
-      aliases: ["Gorgon", "歌貢", "石化蛇女", "魔力脈線", "Mana Ley Line", "Nemea", "Force", "力場", "King of Giants", "巨人之王"],
-      summary: "以 Gorgon 開場的前排力場傷害為核心，用同列魔力脈線放大；一件 Nemea S2 就能補力場易傷。",
+      aliases: ["Gorgon", "歌貢", "石化蛇女", "魔力地脈", "Mana Ley Line", "Nemea", "Force", "力場", "King of Giants", "巨人之王"],
+      summary: "以 Gorgon 開場的前排力場傷害為核心，用同列魔力地脈放大；一件 Nemea S2 就能補力場易傷。",
       sections: [
         {
           heading: "核心配置",
           items: [
             "神話選 King of Giants（巨人之王）：原作者明確推薦它支援狩獵場單位的傷害骰；該 Gorgon 配置不推薦 Swarm。",
-            "把 Gorgon 放進大型狩獵場，並在同列安排 Mana Ley Line（魔力脈線）。原作者的 Titan’s Fortress 例子可放 8 隻 Gorgon 與 6 條脈線；實際格數依地城擴張與設施槽位確認。",
+            "把 Gorgon 放進大型狩獵場，並在同列安排 Mana Ley Line（魔力地脈）。原作者的 Titan’s Fortress 例子可放 8 隻 Gorgon 與 6 條脈線；實際格數依地城擴張與設施槽位確認。",
             "主能力先堆 CHA，次選 CON。Gorgon 自己的 M 通常即可；Nemea M 雖能補傷害，但原作者提醒支配力成本很高。"
           ]
         },
@@ -112,7 +112,7 @@ window.DW_CONTENT = {
           ]
         }
       ],
-      caution: "這是高投入的力場專門隊。先確認自己有足夠 Gorgon、魔力脈線與支配力；不要為了複製數量拆散目前唯一能穩定通關的隊伍。",
+      caution: "這是高投入的力場專門隊。先確認自己有足夠 Gorgon、魔力地脈與支配力；不要為了複製數量拆散目前唯一能穩定通關的隊伍。",
       status: "玩家實測",
       mechanicStatus: "C3 T30 案例；Build 222 待重測",
       sources: [
@@ -120,7 +120,7 @@ window.DW_CONTENT = {
         { name: "Dungeon Within Wiki*：設施效果整理", url: "https://wikiwiki.jp/dunwith/%E8%A8%AD%E5%82%99" }
       ],
       version: "玩家案例約 2026-08；未證實為 Build 222",
-      tags: ["流派", "Gorgon", "力場", "魔力脈線", "巨人之王", "Nemea S2"],
+      tags: ["流派", "Gorgon", "力場", "魔力地脈", "巨人之王", "Nemea S2"],
       updated: "2026-11-15"
     },
     {
@@ -135,7 +135,7 @@ window.DW_CONTENT = {
           heading: "先挑你要玩的核心",
           items: [
             "War Machine（戰爭機器）：社群把它當泛用主力神話，特別是核心能連續使用主動／反應能力時。先給你部件與升級最完整的強力魔物；不是每個隊伍都必須選它。",
-            "King of Giants（巨人之王）：狩獵場群體輸出、Gorgon + 魔力脈線有直接玩家指南支持；用於該配置時比 Swarm 更有根據。",
+            "King of Giants（巨人之王）：狩獵場群體輸出、Gorgon + 魔力地脈有直接玩家指南支持；用於該配置時比 Swarm 更有根據。",
             "Sole Sovereign（唯一君王）+ Emmelia：適合嘗試單核路線。玩家曾以 Rhea 配 Emmelia 做到 C3 T35–36；另有玩家建議用 Giant Fortress 做 2×2 堵口、Giant Rampart 保護單核。這些是舊版本案例。",
             "Fate Weaver（命運編織者）+ Pegasus + Sprout Knight 的 Blooming Blade：社群把它作為暴擊方向的組合提示；目前沒有同等詳盡、達成層數可比的完整測試。",
             "Swarm（蟲群）：同種魔物堆疊才能形成主題，例子有多隻 Ghast 或 Lamia；有玩家報告 Ghast 堆疊可到 T30，但也指出會佔大量方舟格。屬於高收藏成本的專門玩法。"
@@ -219,7 +219,7 @@ window.DW_CONTENT = {
       category: "設施與搭配",
       title: "設施組合：先做泛用核心，再做主題房",
       english: "Facility Combinations",
-      aliases: ["設施組合", "巨人堡壘", "世界樹之心", "投石機", "魔力脈線", "巨人防壁", "生命之泉", "寧靜聖所"],
+      aliases: ["設施組合", "巨人堡壘", "世界樹之心", "投石機", "魔力地脈", "巨人防壁", "生命之泉", "寧靜聖所"],
       summary: "組合表提供三個配方；真正優先度要看你的隊伍：巨型狩獵場泛用、世界樹之心續航、投石機偏功能路線。",
       sections: [
         {
@@ -352,7 +352,7 @@ window.DW_CONTENT = {
         {
           "heading": "先選路線：不必把所有 T9 塞進同一隊",
           "items": [
-            "偏物理耐久的奧斯蒂雅路線：以高體質物理魔物承傷並吃 Heavy Blow／殘骸加成，搭配物理輸出與弱點支援。近期玩家案例以戰神熔爐、巨人城垛和巨人領域狩獵場作為低建築投入起點；這是玩家案例，不是官方指定配置。",
+            "偏物理耐久的奧斯蒂雅路線：以高體質物理魔物承傷並吃 Heavy Blow／殘骸加成，搭配物理輸出與弱點支援。近期玩家案例以戰神熔爐、巨人之壁和巨人領域狩獵場作為低建築投入起點；這是玩家案例，不是官方指定配置。",
             "不以貝西摩斯當主力的路線：死神負責物理／死靈混合輸出和清場，涅默亞提供力場／物理弱點支援。先用能穩定通關的 T6+ 物理怪填其餘位置，不要為了湊滿 T9 拆散投資。",
             "菲亞斯先獨立保留：她的流血與死靈方向和純物理隊不同；等湊到死靈弱點、流血或魅力成長部件，再開第二隊，不必硬塞進奧斯蒂雅物理隊。"
           ]
