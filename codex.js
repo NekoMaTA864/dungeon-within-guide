@@ -3,7 +3,7 @@
   const groups = { lords, monsters, facilities, recipes };
   const allEntries = [...lords, ...monsters, ...facilities, ...recipes];
   const relatedLords = {
-    desponia: ["physis", "grim", "fountain"],
+    desponia: ["physis", "grim", "fountain", "lounge"],
     aura: ["fountain", "world-tree", "behemoth"],
     rhea: ["behemoth", "nemea", "emmelia", "last-stand"],
     zaria: ["physis", "behemoth", "maw"],
@@ -76,6 +76,7 @@
     const rooms = [...(stage.bottom === 1 ? layout.start : layout.cells)];
     if (stage.width === 5) rooms.push(...(layout.wide || []));
     if (stage.doors === 3) {
+      rooms.push(...(layout.full || []));
       const support = rooms.findIndex(({ x, y }) => x === 0 && y === 3);
       if (support !== -1) rooms.splice(support, 1);
       rooms.push(layout.third);
@@ -98,7 +99,9 @@
     const hint = element("p", null, "board-note");
     const source = element("p", "順序以戰線擴張每次都領獎勵為準。可跳過擴建，敵方入口仍可能增加。圖用參考畫面的 4×4 座標對齊各階段，早期顯示座標請以遊戲為準。獎勵順序依社群紀錄，B223 尚未逐關實測。", "board-note");
     source.append(" ", anchor("擴建紀錄", "https://wikiwiki.jp/dunwith/%E6%97%85/%E3%82%AD%E3%83%A3%E3%83%B3%E3%83%9A%E3%83%BC%E3%83%B3"));
-    figure.append(label, board, hint, source);
+    const guide = element("p", "配地宮看兩個數字：格子能不能覆蓋走線，以及右上角「上限－已佔用」夠不夠主隊和部件。先集中一隊；角落缺用途時可留空，缺支配力可用 Lounge，再依漏怪位置決定是否開第二隊。", "board-note");
+    guide.append(" ", anchor("支配力設施怎麼放", "#facilities/lounge"));
+    figure.append(label, board, hint, guide, source);
 
     function tile(col, row, width, height, name, coordinate, kind) {
       const node = element("div", null, "dungeon-tile tile-" + kind);
