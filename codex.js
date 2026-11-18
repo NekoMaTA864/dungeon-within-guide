@@ -7,7 +7,7 @@
     aura: ["fountain", "world-tree", "behemoth"],
     rhea: ["behemoth", "nemea", "emmelia", "last-stand"],
     zaria: ["physis", "behemoth", "maw"],
-    ostea: ["behemoth", "grim", "nemea", "fortress", "rampart"],
+    ostea: ["behemoth", "grim", "nemea", "fortress", "rampart", "frost-pillar", "poison-flow", "catapult-trap"],
     quintessa: ["emmelia", "ley"],
   };
   const search = document.querySelector("#lookup");
@@ -72,23 +72,18 @@
     { label: "Stage 7–8｜5×5 向上", width: 5, bottom: 0, top: 4, doors: 3, hint: "最上方多一列，魔王房多一條通道。圖上以第二狩獵場補第三條路，實際仍要測漏怪和戰力分配。" },
   ];
 
-  function stageCells(start, cells, stage) {
-    const rooms = [...(stage.bottom === 1 ? start : cells)];
-    if (stage.width === 4 && stage.bottom === 1) {
-      rooms.push({ x: 3, y: 2, w: 1, h: 1, kind: "support", name: "攔截預留", role: "先看勇者走線" });
-    }
-    if (stage.width === 5) {
-      rooms.push({ x: 4, y: 2, w: 1, h: 1, kind: "support", name: "第二防線預留", role: "依入口決定" });
-    }
+  function stageCells(layout, stage) {
+    const rooms = [...(stage.bottom === 1 ? layout.start : layout.cells)];
+    if (stage.width === 5) rooms.push(...(layout.wide || []));
     if (stage.doors === 3) {
       const support = rooms.findIndex(({ x, y }) => x === 0 && y === 3);
       if (support !== -1) rooms.splice(support, 1);
-      rooms.push({ x: 0, y: 3, w: 1, h: 1, kind: "hunt", name: "預備狩獵場", role: "補魔王房第三條路" });
+      rooms.push(layout.third);
     }
     return rooms;
   }
 
-  function renderLayout({ start, cells }) {
+  function renderLayout(layout) {
     const figure = element("figure", null, "dungeon-figure");
     figure.append(element("figcaption", "地宮擴建｜寬 × 高，魔王房在左側"));
     const label = element("label", "查看擴建階段", "stage-label");
@@ -116,7 +111,7 @@
 
     function draw(stage) {
       const { width, bottom, top, doors } = stage;
-      const rooms = stageCells(start, cells, stage);
+      const rooms = stageCells(layout, stage);
       board.replaceChildren(element("span", "魔王側", "board-side"));
       board.style.setProperty("--board-width", width);
       board.style.setProperty("--board-height", top - bottom + 1);
@@ -134,7 +129,7 @@
           const room = rooms.find((cell) => x >= cell.x && x < cell.x + cell.w &&
             y <= cell.y && y > cell.y - cell.h);
           if (!room) {
-            tile(x + 2, row, 1, 1, "預留", x + "-" + y, "empty");
+            tile(x + 2, row, 1, 1, "空格", x + "-" + y, "empty");
           } else if (room.x === x && room.y === y) {
             const size = room.w > 1 || room.h > 1 ? " · " + room.w + "×" + room.h : "";
             const node = tile(x + 2, row, room.w, room.h, room.name, x + "-" + y + size, room.kind);
@@ -146,7 +141,9 @@
     }
 
     select.addEventListener("change", () => draw(expansionStages[Number(select.value)]));
-    draw(expansionStages[0]);
+    const initialStage = layout.defaultStage ?? 0;
+    select.value = String(initialStage);
+    draw(expansionStages[initialStage]);
     return figure;
   }
 
@@ -185,9 +182,12 @@
     const evidence = element("p", "地宮圖來源｜" + route.mapEvidence.note, "board-note");
     const [sourceName, sourceUrl] = sources[route.mapEvidence.source];
     evidence.append(" ", anchor(sourceName, sourceUrl), " · ", anchor("查設施配方", "#recipes"));
+    const checklist = element("ol");
+    for (const step of route.actions) checklist.append(element("li", step));
     detail.append(
       routeNav,
       element("p", route.status, "status"),
+      section("先配這一套", "依 B223 機制與舊案例整理的試跑順序。部件效果和敵我判定先看當前面板。", checklist),
       section("地宮配置", route.placement, renderLayout(route.layout)),
       evidence,
       section("隊伍與養成順序", "依序看核心位置、部件、權能、晉升、昇天和魔王特質。", renderChecklist(route.checklist)),
