@@ -65,11 +65,12 @@
   }
 
   const expansionStages = [
-    { label: "Stage 1｜3×3 開局", width: 3, bottom: 1, top: 3, doors: 1, hint: "通過 Stage 1 後可領第一次橫向擴建。" },
-    { label: "Stage 2｜4×3 向右", width: 4, bottom: 1, top: 3, doors: 1, hint: "多出的右欄可先留空，或補入口側攔截。通過 Stage 2 後可向下擴建。" },
-    { label: "Stage 3–4｜4×4 向下", width: 4, bottom: 0, top: 3, doors: 2, hint: "最下方多一列，魔王房兩條通道，可各放一間狩獵場，或用一座 2×2 跨兩條。通過 Stage 4 後可再向右擴建。" },
-    { label: "Stage 5–6｜5×4 再向右", width: 5, bottom: 0, top: 3, doors: 2, hint: "右側再一欄。要不要領 Stage 6 的縱向擴建，請看上方該流派的證據與守線條件。" },
-    { label: "Stage 7–8｜5×5 向上", width: 5, bottom: 0, top: 4, doors: 3, hint: "最上方多一列，魔王房多一條通道。圖上以第二狩獵場補第三條路，實際仍要測漏怪和戰力分配。" },
+    { label: "Stage 1｜3×3 開局", width: 3, bottom: 1, top: 3, doors: 1, entranceStage: 1, entrances: [["right",2]], hint: "通過 Stage 1 後可領第一次橫向擴建。" },
+    { label: "Stage 2｜4×3 向右", width: 4, bottom: 1, top: 3, doors: 1, entranceStage: 2, entrances: [["right",2]], hint: "多出的右欄可先留空，或補入口側攔截。通過 Stage 2 後可向下擴建。" },
+    { label: "Stage 3–4｜4×4 向下", width: 4, bottom: 0, top: 3, doors: 2, entranceStage: 3, entrances: [["top",1],["right",2]], hint: "最下方多一列，魔王房兩條通道，可各放一間狩獵場，或用一座 2×2 跨兩條。通過 Stage 4 後可再向右擴建。" },
+    { label: "Stage 5–6｜5×4 再向右", width: 5, bottom: 0, top: 3, doors: 2, entranceStage: 5, entrances: [["top",2],["right",2],["bottom",2]], hint: "右側再一欄。要不要領 Stage 6 的縱向擴建，請看上方該流派的證據與守線條件。" },
+    { label: "Stage 7–8｜5×5 向上", width: 5, bottom: 0, top: 4, doors: 3, entranceStage: 7, entrances: [["top",2],["right",4],["right",2],["right",0],["bottom",2]], hint: "最上方多一列，魔王房多一條通道。圖上以第二狩獵場補第三條路，實際仍要測漏怪和戰力分配。" },
+    { label: "Stage 7–8｜5×4 跳過最後擴建", width: 5, bottom: 0, top: 3, doors: 2, entrances: [], hint: "沿用 5×4 房間示意與魔王房兩條通道。外圍出怪口座標待核對。" },
   ];
 
   function stageCells(layout, stage) {
@@ -97,11 +98,12 @@
     label.append(select);
     const board = element("div", null, "dungeon-board");
     const hint = element("p", null, "board-note");
-    const source = element("p", "順序以戰線擴張每次都領獎勵為準。可跳過擴建，敵方入口仍可能隨關卡增加；5×4 保留魔王房兩條通道。圖用參考畫面的 4×4 座標對齊各階段，早期顯示座標請以遊戲為準。獎勵順序依社群紀錄，B223 尚未逐關實測。", "board-note");
+    const entranceNote = element("p", null, "board-note");
+    const source = element("p", "前五張圖以戰線擴張每次都領獎勵為準。可跳過擴建，敵方入口仍可能隨關卡增加；5×4 保留魔王房兩條通道。圖用參考畫面的 4×4 座標對齊各階段，早期顯示座標請以遊戲為準。獎勵順序依社群紀錄，B223 尚未逐關實測。", "board-note");
     source.append(" ", anchor("擴建紀錄", "https://wikiwiki.jp/dunwith/%E6%97%85/%E3%82%AD%E3%83%A3%E3%83%B3%E3%83%9A%E3%83%BC%E3%83%B3"));
     const guide = element("p", "配地宮看兩個數字：格子能不能覆蓋走線，以及右上角「上限－已佔用」夠不夠主隊和部件。先集中一隊；角落缺用途時可留空，缺支配力可用 Lounge，再依漏怪位置決定是否開第二隊。", "board-note");
     guide.append(" ", anchor("支配力設施怎麼放", "#facilities/lounge"));
-    figure.append(label, board, hint, guide, source);
+    figure.append(label, board, entranceNote, hint, guide, source);
 
     function tile(col, row, width, height, name, coordinate, kind) {
       const node = element("div", null, "dungeon-tile tile-" + kind);
@@ -125,10 +127,10 @@
         board.append(axis);
       }
       const firstDoorY = doors === 3 ? 3 : 2;
-      tile(1, top - firstDoorY + 2, 1, doors, "魔王房", doors + " 條通道", "lord");
+      tile(1, top - firstDoorY + 3, 1, doors, "魔王房", doors + " 條通道", "lord");
       for (let y = top; y >= bottom; y--) {
         for (let x = 0; x < width; x++) {
-          const row = top - y + 2;
+          const row = top - y + 3;
           const room = rooms.find((cell) => x >= cell.x && x < cell.x + cell.w &&
             y <= cell.y && y > cell.y - cell.h);
           if (!room) {
@@ -140,6 +142,23 @@
           }
         }
       }
+      for (const [edge, coordinate] of stage.entrances) {
+        const isRight = edge === "right";
+        const x = isRight ? width - 1 : coordinate;
+        const y = isRight ? coordinate : edge === "top" ? top : bottom;
+        const direction = { top: "上方", right: "右側", bottom: "下方" }[edge];
+        const description = direction + "出怪口，接 " + x + "-" + y;
+        const marker = element("span", "X", "board-entrance");
+        marker.setAttribute("role", "img");
+        marker.setAttribute("aria-label", description);
+        marker.title = description;
+        marker.style.gridColumn = String(isRight ? width + 2 : x + 2);
+        marker.style.gridRow = String(isRight ? top - y + 3 : edge === "top" ? 2 : top - bottom + 4);
+        board.append(marker);
+      }
+      entranceNote.textContent = stage.entranceStage
+        ? "X 為社群紀錄的 Stage " + stage.entranceStage + " 外圍出怪口。同尺寸其他關卡、跳過擴建及永恆戰爭以實戰為準。"
+        : "此分支尚無可核對的外圍出怪口座標。";
       hint.textContent = stage.hint;
     }
 
