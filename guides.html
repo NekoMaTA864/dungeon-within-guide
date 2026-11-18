@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#10130f" />
+    <meta name="description" content="Dungeon Within 繁體中文流派指南：查魔王與魔物搭配、M／S1／S2 部件、設施組合及養成順序。" />
+    <title>Dungeon Within｜流派與養成指南</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="content.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#library">跳到資料索引</a>
+    <div class="site-shell" id="top">
+      <header class="topbar">
+        <a class="brand" href="./" aria-label="返回 Dungeon Within 圖鑑">
+          <span class="brand-mark" aria-hidden="true">DW</span>
+          <span class="brand-copy">
+            <strong>Dungeon Within</strong>
+            <small>FIELD GUIDE · 繁體中文</small>
+          </span>
+        </a>
+        <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">
+          <span></span><span></span><span class="sr-only">切換導覽選單</span>
+        </button>
+        <nav class="main-nav" id="main-nav" aria-label="主要導覽">
+          <a class="nav-link active" href="#library">配隊與養成</a>
+          <a class="nav-link" href="#method">資料標示</a>
+          <a class="nav-link" href="#about">關於本站</a>
+          <span class="version-pill"><i></i> v0.7.6 · B222</span>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero-art" aria-hidden="true">
+            <div class="sigil sigil-one"></div>
+            <div class="sigil sigil-two"></div>
+            <div class="sigil-core">✦</div>
+          </div>
+          <div class="hero-content">
+            <div class="eyebrow"><span class="eyebrow-line"></span> STRATEGY GUIDE <span class="eyebrow-dot">/</span> 2026.11</div>
+            <h1 id="hero-title">先定流派，<br /><em>再把資源花對。</em></h1>
+            <p class="hero-intro">直接查魔王 × 魔物 × 神話、M／S1／S2 部件、設施搭配與養成先後。每個建議都標出來源與版本限制。</p>
+            <form class="search-box" id="search-form" role="search">
+              <label class="sr-only" for="search-input">搜尋名稱、能力或關鍵字</label>
+              <span class="search-icon" aria-hidden="true">⌕</span>
+              <input id="search-input" type="search" autocomplete="off" placeholder="搜尋 Gorgon、Emmelia、部件、設施、加點……" />
+              <kbd>Enter</kbd>
+            </form>
+            <div class="hero-footnote"><span class="live-dot"></span> 目前索引版本 <strong>v0.7.6 Build 222</strong><span class="footnote-separator">·</span> 資料更新 2026.11.15</div>
+          </div>
+          <div class="hero-index" aria-hidden="true">
+            <span class="index-label">FIELD NOTES</span>
+            <span class="index-number">01</span>
+            <span class="index-caption">BUILD<br />WITH EVIDENCE</span>
+          </div>
+        </section>
+
+        <section class="signal-strip" aria-label="資料索引概況">
+          <div class="signal-item"><span class="signal-number" id="entry-total">09</span><span class="signal-label">攻略條目</span></div>
+          <div class="signal-rule"></div>
+          <div class="signal-item"><span class="signal-number">01</span><span class="signal-label">版本基線</span></div>
+          <div class="signal-rule"></div>
+          <div class="signal-item"><span class="signal-number signal-word">可追溯</span><span class="signal-label">每筆資料標示來源狀態</span></div>
+          <div class="signal-note"><span class="shield-icon">⬡</span> 不收錄私人帳號進度</div>
+        </section>
+
+        <section class="library-section" id="library" aria-labelledby="library-title">
+          <div class="section-heading">
+            <div>
+              <div class="section-kicker">THE INDEX</div>
+              <h2 id="library-title">先看建議，再追來源<span class="heading-period">.</span></h2>
+              <p>先按流派、部件或養成目標篩選；玩家案例與版本待核對項目會直接標明。</p>
+            </div>
+            <div class="view-label"><span class="view-indicator"></span> 公開攻略 <span class="view-divider">/</span> <span id="visible-count">09 筆</span></div>
+          </div>
+
+          <div class="filter-bar">
+            <div class="filter-tabs" role="group" aria-label="依資料類型篩選">
+              <button class="filter-chip selected" type="button" data-category="全部" aria-pressed="true">全部 <span id="all-count">14</span></button>
+            </div>
+            <label class="status-filter">
+              <span>驗證狀態</span>
+              <select id="status-filter" aria-label="依驗證狀態篩選">
+                <option value="全部">全部狀態</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="library-layout">
+            <div class="entry-area">
+              <div class="entry-grid" id="entry-grid" aria-live="polite"></div>
+              <div class="empty-state" id="empty-state" hidden>
+                <span class="empty-mark">⌕</span>
+                <h3>沒有找到相符資料</h3>
+                <p>試試魔物名稱、部件、神話或加點關鍵字，再清除篩選條件。</p>
+                <button class="text-button" id="reset-filters" type="button">清除篩選 <span>↗</span></button>
+              </div>
+            </div>
+            <aside class="detail-panel" id="detail-panel" aria-labelledby="detail-title" aria-live="polite">
+              <div class="detail-topline"><span>FIELD NOTE</span><span id="detail-number">NO. 01</span></div>
+              <div id="detail-content"></div>
+              <div class="detail-footer"><span class="detail-seal">DW</span><span>版本、來源、驗證狀態，<br />是每條資料的基本欄位。</span></div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="method-section" id="method" aria-labelledby="method-title">
+          <div class="method-art" aria-hidden="true"><span>≋</span><i></i></div>
+          <div class="method-copy">
+            <div class="section-kicker">SOURCE FIRST</div>
+            <h2 id="method-title">建議會給結論，<br /><em>也會交代證據範圍。</em></h2>
+            <p>玩家實測只代表該作者的版本、隊伍和試煉條件；社群整理可能是個人心得；官方更新紀錄只說明改版，不代表每篇舊攻略都已重測。</p>
+            <div class="method-legend">
+              <div><span class="legend-badge community">玩家實測</span><small>作者回報的成績與配置</small></div>
+              <div><span class="legend-badge community">社群心得</span><small>可用作方向，不是排名</small></div>
+              <div><span class="legend-badge official">官方更新</span><small>用來標記版本變更</small></div>
+              <div><span class="legend-badge pending">版本待核對</span><small>遊戲內效果仍要確認</small></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="about-section" id="about" aria-labelledby="about-title">
+          <div class="about-label">ABOUT THIS FIELD GUIDE</div>
+          <div class="about-body">
+            <h2 id="about-title">攻略先給結論，再附證據。</h2>
+            <p>這是 Dungeon Within 的公開流派與養成指南，整理配隊方向、部件選擇、設施組合和跨局培養優先度。沒有可靠 Build 222 配方的魔王或設施會明確留白，不把猜測寫成定論。個人帳號進度、資源數和遊戲截圖留在私人筆記。</p>
+          </div>
+          <div class="about-meta"><span>繁體中文優先</span><span>無需登入</span><span>GitHub Pages ready</span></div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <a class="footer-brand" href="#top"><span class="footer-mark">DW</span> DUNGEON WITHIN <span class="footer-slash">/</span> FIELD GUIDE</a>
+        <span class="footer-copy">GitHub Pages · 流派與養成指南 · <span id="footer-year">2026</span></span>
+        <a class="back-top" href="#top">返回頂端 <span>↑</span></a>
+      </footer>
+    </div>
+  </body>
+</html>
+
