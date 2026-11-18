@@ -1,7 +1,7 @@
 (() => {
-  const { lords, monsters, facilities, sources } = window.DW_CODEX;
-  const groups = { lords, monsters, facilities };
-  const allEntries = [...lords, ...monsters, ...facilities];
+  const { lords, monsters, facilities, recipes, sources } = window.DW_CODEX;
+  const groups = { lords, monsters, facilities, recipes };
+  const allEntries = [...lords, ...monsters, ...facilities, ...recipes];
   const relatedLords = {
     desponia: ["physis", "grim", "fountain"],
     aura: ["fountain", "world-tree", "behemoth"],
@@ -46,8 +46,8 @@
 
   function renderIndex() {
     const query = search.value.trim().toLocaleLowerCase();
-    const matches = groups[current.key].filter(({ name, sub, summary }) =>
-      [name, sub, summary].some((text) => text.toLocaleLowerCase().includes(query)));
+    const matches = groups[current.key].filter(({ name, sub, summary, ingredients = [] }) =>
+      [name, sub, summary, ...ingredients].some((text) => text.toLocaleLowerCase().includes(query)));
     entries.replaceChildren();
     for (const item of matches) {
       const link = anchor(item.name, entryHash(item), item === current.entry);
@@ -150,19 +150,47 @@
     return figure;
   }
 
+  function recipeTable() {
+    const table = element("table", null, "recipe-table");
+    table.append(element("caption", "已整理的設施配方｜B223 以遊戲合成介面為準"));
+    const header = table.createTHead().insertRow();
+    for (const label of ["成品", "材料"]) {
+      const cell = element("th", label);
+      cell.scope = "col";
+      header.append(cell);
+    }
+    const body = table.createTBody();
+    for (const recipe of recipes.filter(({ ingredients }) => ingredients)) {
+      const row = body.insertRow();
+      row.insertCell().append(anchor(recipe.name, entryHash(recipe)));
+      row.insertCell().textContent = recipe.ingredients.join(" ＋ ");
+    }
+    return table;
+  }
+
+  function renderChecklist(items) {
+    const list = element("dl", null, "build-checklist");
+    for (const [name, guidance] of items) {
+      list.append(element("dt", name), element("dd", guidance));
+    }
+    return list;
+  }
+
   function renderRoute(entry, route) {
     const routeNav = element("nav", null, "route-nav");
     routeNav.setAttribute("aria-label", "魔王流派");
     for (const option of entry.routes) {
       routeNav.append(anchor(option.title, entryHash(entry) + "/" + option.id, route === option));
     }
+    const evidence = element("p", "地宮圖來源｜" + route.mapEvidence.note, "board-note");
+    const [sourceName, sourceUrl] = sources[route.mapEvidence.source];
+    evidence.append(" ", anchor(sourceName, sourceUrl), " · ", anchor("查設施配方", "#recipes"));
     detail.append(
       routeNav,
       element("p", route.status, "status"),
       section("地宮配置", route.placement, renderLayout(route.layout)),
-      section("魔物與部件", route.team),
-      section("權能取捨", route.authority),
-      section("昇天、晉升與魔王特質", route.ascension),
+      evidence,
+      section("隊伍與養成順序", "依序看核心位置、部件、權能、晉升、昇天和魔王特質。", renderChecklist(route.checklist)),
       section("遺物與關卡優先級", route.path),
       section("版本適用性", route.version)
     );
@@ -208,11 +236,14 @@
     detail.replaceChildren(heading, element("p", entry.sub, "subtitle"), element("p", entry.summary));
     if (route) {
       renderRoute(entry, route);
+    } else if (entry.recipeIndex) {
+      detail.append(recipeTable());
     } else {
       detail.append(element("p", entry.status, "status"));
       for (const [title, text] of entry.sections) detail.append(section(title, text));
     }
-    renderRelated(entry.links || relatedLords[entry.id]);
+    const related = entry.links || relatedLords[entry.id];
+    if (related?.length) renderRelated(related);
     renderSources(route?.sources || entry.sources);
     document.title = entry.name + "｜Dungeon Within 圖鑑";
   }

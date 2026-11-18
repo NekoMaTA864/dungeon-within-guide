@@ -62,3 +62,10 @@ input { padding: .55rem; color: inherit; background: var(--panel); border: 1px s
 
 .stage-label { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; margin-block: .5rem; font-size: .88rem; }
 .stage-label select { max-width: 100%; padding: .35rem; color: inherit; background: var(--panel); border: 1px solid var(--line); border-radius: .35rem; font: inherit; }
+
+.recipe-table { width: 100%; border-collapse: collapse; text-align: left; margin-block: 1rem; }
+.recipe-table caption { text-align: left; color: var(--text-muted); margin-bottom: .5rem; }
+.recipe-table :is(th, td) { padding: .5rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+.recipe-table th { background: var(--panel); }
+.build-checklist dt { color: var(--green); font-weight: 700; }
+.build-checklist dd { margin: .25rem 0 .85rem; }

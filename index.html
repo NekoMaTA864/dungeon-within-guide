@@ -6,9 +6,9 @@
   <meta name="theme-color" content="#151a15">
   <meta name="description" content="Dungeon Within 繁體中文圖鑑，查魔王流派、魔物部件與設施配置。">
   <title>Dungeon Within｜魔王、魔物與設施圖鑑</title>
-  <link rel="stylesheet" href="codex.css?v=expansion-1">
-  <script defer src="codex-data.js?v=expansion-1"></script>
-  <script defer src="codex.js?v=expansion-1"></script>
+  <link rel="stylesheet" href="codex.css?v=recipes-1">
+  <script defer src="codex-data.js?v=recipes-1"></script>
+  <script defer src="codex.js?v=recipes-1"></script>
 </head>
 <body>
   <a class="skip" href="#main">跳到圖鑑</a>
@@ -27,11 +27,12 @@
       <a href="#lords" data-category="lords">魔王</a>
       <a href="#monsters" data-category="monsters">魔物</a>
       <a href="#facilities" data-category="facilities">設施</a>
+      <a href="#recipes" data-category="recipes">設施組合表</a>
     </nav>
     <div class="workspace">
       <aside class="inventory" aria-label="圖鑑索引">
         <label for="lookup">搜尋目前分類</label>
-        <input id="lookup" type="search" placeholder="輸入中文或英文名稱">
+        <input id="lookup" type="search" placeholder="輸入名稱或材料">
         <nav id="entries" aria-label="圖鑑條目"></nav>
       </aside>
       <article id="detail" aria-labelledby="entry-title"></article>
