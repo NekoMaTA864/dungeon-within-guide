@@ -3,9 +3,9 @@
   const groups = { lords, monsters, facilities };
   const allEntries = [...lords, ...monsters, ...facilities];
   const relatedLords = {
-    desponia: ["physis", "grim"],
-    aura: ["behemoth"],
-    rhea: ["behemoth", "nemea", "emmelia"],
+    desponia: ["physis", "grim", "fountain"],
+    aura: ["fountain", "world-tree", "behemoth"],
+    rhea: ["behemoth", "nemea", "emmelia", "last-stand"],
     zaria: ["physis", "behemoth", "maw"],
     ostea: ["behemoth", "grim", "nemea", "fortress", "rampart"],
     quintessa: ["emmelia", "ley"],
@@ -64,42 +64,89 @@
     return node;
   }
 
-  function renderLayout({ cells, note }) {
-    const figure = element("figure", null, "dungeon-figure");
-    figure.append(element("figcaption", "4×4 成形示意｜左側為魔王房，座標沿用遊戲畫面"));
-    const board = element("div", null, "dungeon-board");
-    board.append(element("span", "魔王側", "board-side"));
-    for (let x = 0; x < 4; x++) {
-      const axis = element("span", "X " + x, "board-axis");
-      axis.style.gridColumn = String(x + 2);
-      axis.style.gridRow = "1";
-      board.append(axis);
-    }
+  const expansionStages = [
+    { label: "Stage 1｜3×3 開局", width: 3, bottom: 1, top: 3, doors: 1, hint: "通過 Stage 1 後可領第一次橫向擴建。" },
+    { label: "Stage 2｜4×3 向右", width: 4, bottom: 1, top: 3, doors: 1, hint: "多出的右欄可先留空，或補入口側攔截。通過 Stage 2 後可向下擴建。" },
+    { label: "Stage 3–4｜4×4 向下", width: 4, bottom: 0, top: 3, doors: 2, hint: "最下方多一列，魔王房兩條通道，可各放一間狩獵場，或用一座 2×2 跨兩條。通過 Stage 4 後可再向右擴建。" },
+    { label: "Stage 5–6｜5×4 再向右", width: 5, bottom: 0, top: 3, doors: 2, hint: "右側再一欄，可做第二道防線。若主房只靠一座 2×2 守魔王房，可跳過 Stage 6 結算的縱向擴建，保留 5×4。" },
+    { label: "Stage 7–8｜5×5 向上", width: 5, bottom: 0, top: 4, doors: 3, hint: "最上方多一列，魔王房多一條通道。圖上以第二狩獵場補第三條路，實際仍要測漏怪和戰力分配。" },
+  ];
 
-    function tile(col, row, width, height, name, label, kind) {
+  function stageCells(start, cells, stage) {
+    const rooms = [...(stage.bottom === 1 ? start : cells)];
+    if (stage.width === 4 && stage.bottom === 1) {
+      rooms.push({ x: 3, y: 2, w: 1, h: 1, kind: "support", name: "攔截預留", role: "先看勇者走線" });
+    }
+    if (stage.width === 5) {
+      rooms.push({ x: 4, y: 2, w: 1, h: 1, kind: "support", name: "第二防線預留", role: "依入口決定" });
+    }
+    if (stage.doors === 3) {
+      const support = rooms.findIndex(({ x, y }) => x === 0 && y === 3);
+      if (support !== -1) rooms.splice(support, 1);
+      rooms.push({ x: 0, y: 3, w: 1, h: 1, kind: "hunt", name: "預備狩獵場", role: "補魔王房第三條路" });
+    }
+    return rooms;
+  }
+
+  function renderLayout({ start, cells }) {
+    const figure = element("figure", null, "dungeon-figure");
+    figure.append(element("figcaption", "地宮擴建｜寬 × 高，魔王房在左側"));
+    const label = element("label", "查看擴建階段", "stage-label");
+    const select = element("select");
+    expansionStages.forEach((stage, index) => {
+      const option = element("option", stage.label);
+      option.value = String(index);
+      select.append(option);
+    });
+    label.append(select);
+    const board = element("div", null, "dungeon-board");
+    const hint = element("p", null, "board-note");
+    const source = element("p", "順序以戰線擴張每次都領獎勵為準。可跳過擴建，敵方入口仍可能增加。圖用參考畫面的 4×4 座標對齊各階段，早期顯示座標請以遊戲為準。獎勵順序依社群紀錄，B223 尚未逐關實測。", "board-note");
+    source.append(" ", anchor("擴建紀錄", "https://wikiwiki.jp/dunwith/%E6%97%85/%E3%82%AD%E3%83%A3%E3%83%B3%E3%83%9A%E3%83%BC%E3%83%B3"));
+    figure.append(label, board, hint, source);
+
+    function tile(col, row, width, height, name, coordinate, kind) {
       const node = element("div", null, "dungeon-tile tile-" + kind);
       node.style.gridColumn = col + " / span " + width;
       node.style.gridRow = row + " / span " + height;
-      node.append(element("span", label, "tile-label"), element("strong", name));
+      node.append(element("span", coordinate, "tile-label"), element("strong", name));
       board.append(node);
       return node;
     }
 
-    tile(1, 3, 1, 2, "魔王房", "固定位置", "lord");
-    for (let y = 3; y >= 0; y--) {
-      for (let x = 0; x < 4; x++) {
-        const room = cells.find((cell) => x >= cell.x && x < cell.x + cell.w &&
-          y <= cell.y && y > cell.y - cell.h);
-        if (!room) {
-          tile(x + 2, 5 - y, 1, 1, "預留", x + "-" + y, "empty");
-        } else if (room.x === x && room.y === y) {
-          const end = room.w > 1 || room.h > 1 ? " · " + room.w + "×" + room.h : "";
-          const node = tile(x + 2, 5 - y, room.w, room.h, room.name, x + "-" + y + end, room.kind);
-          if (room.role) node.append(element("small", room.role));
+    function draw(stage) {
+      const { width, bottom, top, doors } = stage;
+      const rooms = stageCells(start, cells, stage);
+      board.replaceChildren(element("span", "魔王側", "board-side"));
+      board.style.setProperty("--board-width", width);
+      board.style.setProperty("--board-height", top - bottom + 1);
+      for (let x = 0; x < width; x++) {
+        const axis = element("span", "X " + x, "board-axis");
+        axis.style.gridColumn = String(x + 2);
+        axis.style.gridRow = "1";
+        board.append(axis);
+      }
+      const firstDoorY = doors === 3 ? 3 : 2;
+      tile(1, top - firstDoorY + 2, 1, doors, "魔王房", doors + " 條通道", "lord");
+      for (let y = top; y >= bottom; y--) {
+        for (let x = 0; x < width; x++) {
+          const row = top - y + 2;
+          const room = rooms.find((cell) => x >= cell.x && x < cell.x + cell.w &&
+            y <= cell.y && y > cell.y - cell.h);
+          if (!room) {
+            tile(x + 2, row, 1, 1, "預留", x + "-" + y, "empty");
+          } else if (room.x === x && room.y === y) {
+            const size = room.w > 1 || room.h > 1 ? " · " + room.w + "×" + room.h : "";
+            const node = tile(x + 2, row, room.w, room.h, room.name, x + "-" + y + size, room.kind);
+            if (room.role) node.append(element("small", room.role));
+          }
         }
       }
+      hint.textContent = stage.hint;
     }
-    figure.append(board, element("p", note, "board-note"));
+
+    select.addEventListener("change", () => draw(expansionStages[Number(select.value)]));
+    draw(expansionStages[0]);
     return figure;
   }
 

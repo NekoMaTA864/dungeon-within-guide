@@ -49,7 +49,7 @@ input { padding: .55rem; color: inherit; background: var(--panel); border: 1px s
 
 .dungeon-figure { margin: .6rem 0 0; }
 .dungeon-figure figcaption, .board-note { color: var(--text-muted); font-size: .88rem; }
-.dungeon-board { display: grid; grid-template-columns: minmax(0, .83fr) repeat(4, minmax(0, 1fr)); grid-template-rows: auto repeat(4, minmax(3.65rem, auto)); gap: .25rem; margin-block: .55rem; }
+.dungeon-board { display: grid; grid-template-columns: minmax(0, .83fr) repeat(var(--board-width), minmax(0, 1fr)); grid-template-rows: auto repeat(var(--board-height), minmax(3.65rem, auto)); gap: .25rem; margin-block: .55rem; }
 .board-axis, .board-side { text-align: center; color: var(--text-muted); font-size: .72rem; }
 .dungeon-tile { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; overflow-wrap: anywhere; border: 1px solid var(--line); border-radius: .3rem; background: var(--panel); padding: .25rem .14rem; line-height: 1.25; font-size: clamp(.69rem, 2.45vw, .9rem); }
 .tile-label, .dungeon-tile small { color: var(--text-muted); font-size: .68rem; }
@@ -59,3 +59,6 @@ input { padding: .55rem; color: inherit; background: var(--panel); border: 1px s
 .tile-trap { border-color: #bc8b9f; background: #36232d; }
 .tile-lord { border-color: #9a8ebd; background: #2d253a; }
 .tile-empty { border-style: dashed; background: transparent; color: var(--text-muted); }
+
+.stage-label { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; margin-block: .5rem; font-size: .88rem; }
+.stage-label select { max-width: 100%; padding: .35rem; color: inherit; background: var(--panel); border: 1px solid var(--line); border-radius: .35rem; font: inherit; }
