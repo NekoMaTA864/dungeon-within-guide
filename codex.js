@@ -7,8 +7,8 @@
     aura: ["fountain", "world-tree", "behemoth"],
     rhea: ["behemoth", "nemea", "emmelia", "last-stand"],
     zaria: ["physis", "behemoth", "maw"],
-    ostea: ["behemoth", "grim", "nemea", "fortress", "rampart", "frost-pillar", "poison-flow", "catapult-trap"],
-    quintessa: ["emmelia", "ley"],
+    ostea: ["behemoth", "grim", "nemea", "fortress", "rampart", "absolute-zero", "frost-pillar", "poison-flow", "catapult-trap"],
+    quintessa: ["emmelia", "ley", "absolute-zero"],
   };
   const search = document.querySelector("#lookup");
   const entries = document.querySelector("#entries");
@@ -97,7 +97,7 @@
     label.append(select);
     const board = element("div", null, "dungeon-board");
     const hint = element("p", null, "board-note");
-    const source = element("p", "順序以戰線擴張每次都領獎勵為準。可跳過擴建，敵方入口仍可能增加。圖用參考畫面的 4×4 座標對齊各階段，早期顯示座標請以遊戲為準。獎勵順序依社群紀錄，B223 尚未逐關實測。", "board-note");
+    const source = element("p", "順序以戰線擴張每次都領獎勵為準。可跳過擴建，敵方入口仍可能隨關卡增加；5×4 保留魔王房兩條通道。圖用參考畫面的 4×4 座標對齊各階段，早期顯示座標請以遊戲為準。獎勵順序依社群紀錄，B223 尚未逐關實測。", "board-note");
     source.append(" ", anchor("擴建紀錄", "https://wikiwiki.jp/dunwith/%E6%97%85/%E3%82%AD%E3%83%A3%E3%83%B3%E3%83%9A%E3%83%BC%E3%83%B3"));
     const guide = element("p", "配地宮看兩個數字：格子能不能覆蓋走線，以及右上角「上限－已佔用」夠不夠主隊和部件。先集中一隊；角落缺用途時可留空，缺支配力可用 Lounge，再依漏怪位置決定是否開第二隊。", "board-note");
     guide.append(" ", anchor("支配力設施怎麼放", "#facilities/lounge"));
@@ -187,8 +187,17 @@
     evidence.append(" ", anchor(sourceName, sourceUrl), " · ", anchor("查設施配方", "#recipes"));
     const checklist = element("ol");
     for (const step of route.actions) checklist.append(element("li", step));
+    const expansion = route.expansion;
+    const stop = element("aside", null, "guide-section");
+    stop.append(
+      element("h3", "建議停在 " + expansion.size + "（寬×高）"),
+      element("p", expansion.reason),
+      element("p", "何時擴到 5×5｜" + expansion.when),
+      element("p", "敵人入口可能隨戰線擴張流程增加；跳過最後一鏟仍要擋新增敵流。5×5 額外要處理的是魔王房第三條通道。", "board-note")
+    );
     detail.append(
       routeNav,
+      stop,
       element("p", route.status, "status"),
       section("先配這一套", "依 B223 機制與舊案例整理的試跑順序。部件效果和敵我判定先看當前面板。", checklist),
       section("地宮配置", route.placement, renderLayout(route.layout)),
