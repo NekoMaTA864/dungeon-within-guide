@@ -158,7 +158,13 @@
       }
       entranceNote.textContent = stage.entranceStage
         ? "X 為社群紀錄的 Stage " + stage.entranceStage + " 外圍出怪口。同尺寸其他關卡、跳過擴建及永恆戰爭以實戰為準。"
-        : "此分支尚無可核對的外圍出怪口座標。";
+        : "此劇情分支的外圍出怪口座標尚待核對。";
+      if (width === 5 && top === 3) {
+        entranceNote.append(" ", anchor("另看奧斯蒂雅 B212 無盡 33-1 的 5×4 實錄", "sources.html#ostea-video"));
+      }
+      if (top === 4) {
+        entranceNote.append(" ", anchor("另看 Aura v0.7.4 的上側入口實錄", "sources.html#aura-video"));
+      }
       hint.textContent = stage.hint;
     }
 
